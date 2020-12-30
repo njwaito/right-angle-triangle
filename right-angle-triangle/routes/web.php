@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RightAngleTriangleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get( '/', [ RightAngleTriangleController::class, 'show' ] );
+Route::post( '/', [ RightAngleTriangleController::class, 'store' ] );
