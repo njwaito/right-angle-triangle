@@ -9,7 +9,18 @@ class RightAngleTriangleController extends Controller {
 
 	public function show() {
 
-		return view( 'triangle' );
+		$data['triangles'] = Triangle::all();
+
+		$lastTriangle = $data['triangles']->last();
+
+		if(!empty($lastTriangle)) {
+			$data['a'] = $lastTriangle['a'];
+			$data['b'] = $lastTriangle['b'];
+			$data['c'] = $lastTriangle['c'];
+			$data['theta'] = $lastTriangle['theta'];
+		}
+
+		return view( 'triangle', $data );
 
 	}
 
