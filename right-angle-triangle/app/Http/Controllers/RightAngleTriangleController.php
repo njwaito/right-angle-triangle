@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Integer;
 
 class RightAngleTriangleController extends Controller {
 
@@ -20,6 +21,13 @@ class RightAngleTriangleController extends Controller {
 			                                 'c' => 'required|numeric',
 			                                 'theta' => 'required|numeric',
 		                                 ] );
+
+		$data['a'] = $request->input('a');
+		$data['b'] = $request->input('b');
+		$data['c'] = hypot( (int) $data['a'], (int) $data['b'] );
+		$data['theta'] = rad2deg( asin($data['a'] / $data['c'] ) );
+
+		return view( 'triangle', $data);
 
 	}
 }
