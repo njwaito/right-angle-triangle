@@ -13,6 +13,11 @@
         <div class="container">
 
             <h2>Right Angle Triangles.</h2>
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <img src="{{asset('img/triangle.png')}}" class="img-thumbnail" alt="right angle triangle">
+                </div>
+            </div>
             <form method="POST" action="">
                 @csrf
                 <label for="a">a</label>
@@ -32,16 +37,19 @@
                 @endif
             </form>
 
-            <table id="recent-results">
-                <tr>
-                    <th>uniqueId</th>
-                    <th>theta</th>
-                    <th>a</th>
-                    <th>b</th>
-                    <th>c</th>
-                    <th>date</th>
-                    <th>Values modified</th>
-                </tr>
+            <table id="recent-results" class="table">
+                <thead>
+                    <tr>
+                        <th>uniqueId</th>
+                        <th>theta (&#176;)</th>
+                        <th>a (units)</th>
+                        <th>b (units)</th>
+                        <th>c (units)</th>
+                        <th>date</th>
+                        <th>Values modified</th>
+                    </tr>
+                </thead>
+                <tbody>
                 @foreach( $triangles as $triangle )
                     <tr>
                         <td>{{$triangle->id}}</td>
@@ -52,6 +60,7 @@
                         <td>{{$triangle->created_at}}</td>
                     </tr>
                 @endforeach
+                </tbody>
             </table>
         </div>
     </body>
