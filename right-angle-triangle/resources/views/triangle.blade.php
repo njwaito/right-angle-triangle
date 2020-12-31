@@ -13,12 +13,12 @@
         <div class="container">
 
             <h2>Right Angle Triangles.</h2>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center pb-4">
                 <div class="col-6">
                     <img src="{{asset('img/triangle.png')}}" class="img-thumbnail" alt="right angle triangle">
                 </div>
             </div>
-            <form method="POST" action="">
+            <form method="POST" action="" class="pb-4">
                 @csrf
                 <label for="a">a</label>
                 <input id="a" name="a" type="text" class="@error('a') is-invalid @enderror" value="{{ $a ?? '' }}">
