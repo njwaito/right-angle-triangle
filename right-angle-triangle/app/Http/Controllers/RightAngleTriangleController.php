@@ -64,6 +64,8 @@ class RightAngleTriangleController extends Controller {
 
 		$lastTriangle = Triangle::all()->last();
 
+		if( empty( $lastTriangle ) ) $lastTriangle = new Triangle();
+
 		// Create a new Triangle object with the user input values.
 		$triangle = new Triangle;
 		$triangle->a = $request->input('a');
