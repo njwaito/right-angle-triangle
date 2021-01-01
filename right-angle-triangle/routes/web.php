@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Notification;
 use App\Http\Controllers\RightAngleTriangleController;
+use App\Notifications\TestComplete;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,5 +20,10 @@ use App\Http\Controllers\RightAngleTriangleController;
 //     return view('welcome');
 // });
 
+Route::get( '/mail', function() {
+	Notification::route('mail', 'fake_email@lendtech.com')
+		->notify(new TestComplete());
+	return new App\Mail\ReportLog();
+});
 Route::get( '/', [ RightAngleTriangleController::class, 'show' ] );
 Route::post( '/', [ RightAngleTriangleController::class, 'store' ] );
