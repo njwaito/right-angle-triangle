@@ -7,6 +7,19 @@ use App\Models\Triangle;
 
 class RightAngleTriangleController extends Controller {
 
+	/**
+	 * Shows the main view for the application.
+	 *
+	 * Users can submit changes to the values of a right angle triangle.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @author  Nathan Waito <nathanjwaito@gmail.com>
+	 * @access  public
+	 * @date    2020-12-30
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+	 */
 	public function show() {
 
 		$data['triangles'] = Triangle::all();
@@ -24,6 +37,22 @@ class RightAngleTriangleController extends Controller {
 
 	}
 
+	/**
+	 * Accepts a POST request with user input representing the values of a right angle triangle.
+	 *
+	 * Assesses changes to the previous triangle, if there were one, and determines which values should be carried
+	 * forward and used to solve the new triangle.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @author  Nathan Waito <nathanjwaito@gmail.com>
+	 * @access  public
+	 * @date    2020-12-30
+	 *
+	 * @param \Illuminate\Http\Request $request
+	 *
+	 * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+	 */
 	public function store( Request $request ) {
 
 		$validated = $request->validate( [
@@ -45,11 +74,6 @@ class RightAngleTriangleController extends Controller {
 		// Based on which inputs the user changed, detect which values need to be solved for.
 		$triangle = $this->setTriangleAttributeChanges( $lastTriangle, $triangle );
 
-		// echo '<pre>';
-		// print_r($triangle);
-		// echo '</pre>';
-		// die();
-
 		$triangle = $this->solveTriangle( $triangle );
 
 		$triangle->save();
@@ -70,6 +94,24 @@ class RightAngleTriangleController extends Controller {
 
 	}
 
+	/**
+	 * Compares two Triangle objects and determines which values should be carried forward to the new triangle to be
+	 * solved.
+	 *
+	 * NOTE: if a, b & c are changed, the changes to c will be disregarded. If theta is changed, b is carried forward
+	 * from the previous triangle and only a &  c are solved for.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @author  Nathan Waito <nathanjwaito@gmail.com>
+	 * @access  public
+	 * @date    2020-12-31
+	 *
+	 * @param \App\Models\Triangle $previous
+	 * @param \App\Models\Triangle $current
+	 *
+	 * @return \App\Models\Triangle
+	 */
 	private function setTriangleAttributeChanges( Triangle $previous, Triangle $current ) {
 		$toReturn = new Triangle();
 
@@ -110,6 +152,22 @@ class RightAngleTriangleController extends Controller {
 		return $toReturn;
 	}
 
+	/**
+	 * Determines which method should be used to solve the new Triangle, and forwards the request to the appropriate
+	 * helper function.
+	 *
+	 * Helper functions were created to improve the readability and maintainability of the code base.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @author  Nathan Waito <nathanjwaito@gmail.com>
+	 * @access  public
+	 * @date    2020-12-31
+	 *
+	 * @param \App\Models\Triangle $triangle
+	 *
+	 * @return \App\Models\Triangle
+	 */
 	private function solveTriangle( Triangle $triangle ) {
 
 		if( !empty( $triangle->theta ) ) {
@@ -121,6 +179,21 @@ class RightAngleTriangleController extends Controller {
 		return $triangle;
 	}
 
+	/**
+	 * Uses properties of a right angle triangle and trigonometry to solve the given Triangle, should be called
+	 * if values for any combination of a, b, and c are already known. If a value for theta has been provided, it will
+	 * be recalculated here.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @author  Nathan Waito <nathanjwaito@gmail.com>
+	 * @access  public
+	 * @date    2020-12-31
+	 *
+	 * @param \App\Models\Triangle $triangle
+	 *
+	 * @return \App\Models\Triangle
+	 */
 	private function solveTriangleUsingTwoSides( Triangle $triangle ) {
 
 		// Solve for the sides of the triangle. If a faulty value was provided for "c" it will be overwritten here.
@@ -140,8 +213,23 @@ class RightAngleTriangleController extends Controller {
 		return $triangle;
 	}
 
+	/**
+	 * Uses trigonometric functions to solve for the sides of a triangle. Should only be called if a new value for
+	 * theta has been provided.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @author  Nathan Waito <nathanjwaito@gmail.com>
+	 * @access  public
+	 * @date    2020-12-31
+	 *
+	 * @param \App\Models\Triangle $triangle
+	 *
+	 * @return \App\Models\Triangle
+	 */
 	private function solveTriangleUsingTheta( Triangle $triangle ) {
 
+		//NOTE: some loss of precision may occur due to the nature of these functions and the fact that we're rounding to less precise decimal points
 		if( !empty( $triangle->a ) ) {
 			$triangle->c = round( $triangle->a / sin( (float) deg2rad( $triangle->theta ) ), 2 );
 		} elseif( !empty( $triangle->b ) ) {
