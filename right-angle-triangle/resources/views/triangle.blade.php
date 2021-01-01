@@ -41,22 +41,21 @@
                 <thead>
                     <tr>
                         <th>uniqueId</th>
-                        <th>theta (&#176;)</th>
                         <th>a (units)</th>
                         <th>b (units)</th>
                         <th>c (units)</th>
+                        <th>theta (&#176;)</th>
                         <th>date</th>
-                        <th>Values modified</th>
                     </tr>
                 </thead>
                 <tbody>
                 @foreach( $triangles as $triangle )
                     <tr>
                         <td>{{$triangle->id}}</td>
-                        <td>{{$triangle->theta}}</td>
                         <td>{{$triangle->a}}</td>
                         <td>{{$triangle->b}}</td>
                         <td>{{$triangle->c}}</td>
+                        <td>{{$triangle->theta}}</td>
                         <td>{{$triangle->created_at}}</td>
                     </tr>
                 @endforeach
